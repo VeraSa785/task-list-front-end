@@ -34,36 +34,32 @@ const App = () => {
   const toggleComplete = (id) => {
     const updatedTasks = [...tasks];
     let targetTask;
+    let endpoint;
 
     for (let task of updatedTasks) {
       if (task.id === id) {
         targetTask = task;
+        if (targetTask.isComplete) {
+          // let mark_complete = endpoint
+          endpoint = 'mark_incomplete';
+        } else {
+          endpoint = 'mark_complete';
+        }
       }
     }
 
-    let endpoint;
     // let mark_complete;
-    axios.patch(
-      `https://task-list-api-c17.herokuapp.com/tasks/${targetTask.id}/${endpoint}`
-    ),
-      {
-        description: targetTask.description,
-        title: targetTask.title,
-        isComplete: targetTask.is_complete,
-      }
-        .then((response) => {
-          targetTask.isComplete = !targetTask.isComplete;
-          if (targetTask.isComplete) {
-            // let mark_complete = endpoint
-            endpoint = 'mark_complete';
-          } else {
-            endpoint = 'mark_incomplete';
-          }
-          setTasks(updatedTasks);
-        })
-        .catch((error) => {
-          console.log('Sorry, unable to update task');
-        });
+    axios
+      .patch(
+        `https://task-list-api-c17.herokuapp.com/tasks/${targetTask.id}/${endpoint}`
+      )
+      .then((response) => {
+        targetTask.isComplete = !targetTask.isComplete;
+        setTasks(updatedTasks);
+      })
+      .catch((error) => {
+        console.log('Sorry, unable to update task');
+      });
     // console.log('toggled', id);
     // const updatedTasks = [...tasks];
 
