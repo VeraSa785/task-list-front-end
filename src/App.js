@@ -45,7 +45,6 @@ const App = () => {
       if (task.id === id) {
         targetTask = task;
         if (targetTask.isComplete) {
-          // let mark_complete = endpoint
           endpoint = 'mark_incomplete';
         } else {
           endpoint = 'mark_complete';
@@ -53,7 +52,6 @@ const App = () => {
       }
     }
 
-    // let mark_complete;
     axios
       .patch(
         `https://task-list-api-c17.herokuapp.com/tasks/${targetTask.id}/${endpoint}`
@@ -109,6 +107,7 @@ const App = () => {
       <main>
         <div>
           <NewTaskForm handleFormSubmission={makeNewTask} />
+          {/* <NewTaskForm /> */}
           <TaskList
             tasks={tasks}
             toggleComplete={toggleComplete}

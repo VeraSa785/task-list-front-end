@@ -2,9 +2,8 @@ import React from 'react';
 import './NewTaskForm.css';
 import PropTypes from 'prop-types';
 import { useState } from 'react';
-import Task from './Task';
 
-const defaultTask = { description: '', is_complete: false, title: '' };
+const defaultTask = { description: '', title: '', isComplete: false };
 
 const NewTaskForm = (props) => {
   const [taskData, setTasksData] = useState(defaultTask);
@@ -16,6 +15,7 @@ const NewTaskForm = (props) => {
 
     const newListData = { ...taskData };
     newListData[name] = value;
+    // newListData['isComplete'] = false;
     setTasksData(newListData);
   };
 
@@ -26,14 +26,14 @@ const NewTaskForm = (props) => {
 
   return (
     <form onSubmit={handleFormSubmission}>
-      <label>Description</label>
+      <label htmlFor="description">Description</label>
       <input
         name="description"
         type="text"
         value={taskData.description}
         onChange={handleFormInput}
       />
-      <label>Title</label>
+      <label htmlFor="title">Title</label>
       <input
         name="title"
         type="text"
