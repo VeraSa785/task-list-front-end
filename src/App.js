@@ -3,6 +3,7 @@ import TaskList from './components/TaskList.js';
 import './App.css';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import NewTaskForm from './components/NewTaskForm.js';
 
 const App = () => {
   // const TASKS = [
@@ -21,6 +22,10 @@ const App = () => {
   const [tasks, setTasks] = useState([]);
 
   useEffect(() => {
+    getTasksFromAPI();
+  }, []);
+
+  const getTasksFromAPI = () => {
     axios
       .get('https://task-list-api-c17.herokuapp.com/tasks')
       .then((response) => {
@@ -29,7 +34,7 @@ const App = () => {
       .catch((error) => {
         console.log('Oh no where are the tasks???');
       });
-  }, []);
+  };
 
   const toggleComplete = (id) => {
     const updatedTasks = [...tasks];
@@ -85,6 +90,17 @@ const App = () => {
       });
   };
 
+  const makeNewTask = (data) => {
+    axios
+      .post('https://task-list-api-c17.herokuapp.com/tasks', data)
+      .then((response) => {
+        getTasksFromAPI();
+      })
+      .catch((error) => {
+        console.log('Oh no! Cant make new task!');
+      });
+  };
+
   return (
     <div className="App">
       <header className="App-header">
@@ -92,13 +108,12 @@ const App = () => {
       </header>
       <main>
         <div>
-          {
-            <TaskList
-              tasks={tasks}
-              toggleComplete={toggleComplete}
-              deleteTaskCallback={deleteTask}
-            />
-          }
+          <NewTaskForm handleFormSubmission={makeNewTask} />
+          <TaskList
+            tasks={tasks}
+            toggleComplete={toggleComplete}
+            deleteTaskCallback={deleteTask}
+          />
         </div>
       </main>
     </div>
